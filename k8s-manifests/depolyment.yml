@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockerhub-exporter
+  labels:
+    app: dockerhub-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockerhub-exporter
+  template:
+    metadata:
+      labels:
+        app: dockerhub-exporter
+    spec:
+      containers:
+      - name: dockerhub-exporter
+        env:
+          - name: DOCKERHUB_ORGANIZATION
+            value: "nginx"
+        image: local.registry/dockerhub-exporter:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 2113        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
